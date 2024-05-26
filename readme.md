@@ -1,5 +1,8 @@
 This is a small subproject to add easy UpdateChecks to my BeatSaber mods with ingame display for the players.
 
+(Ugly early screenshot)
+![20240526171136_1](https://github.com/no-1-noob/SimpleUpdateChecker/assets/91905916/d237270e-5adc-46a2-90af-3644a3eeef7f)
+
 How to use:
 ### Add the project as a submodule to the mod
 Execute in the main mod folder
@@ -12,7 +15,7 @@ Rightclick your solution -> Add existing project -> choose the .csproj
 
 ### Add the SimpleUpdateChecker to your mod using source reference
 Edit the .csproj of the mod with a editor and add the following. Reloading the .sln may be needed for the files to show.
-```c#
+```xml
 <ItemGroup>
     <Compile Include="..\SimpleUpdateChecker\**\*.cs" Link="SimpleUpdateChecker\%(RecursiveDir)%(FileName)%(Extension)" />
     <EmbeddedResource Include="..\SimpleUpdateChecker\**\*.bsml" Link="SimpleUpdateChecker\%(RecursiveDir)%(FileName)%(Extension)" />
