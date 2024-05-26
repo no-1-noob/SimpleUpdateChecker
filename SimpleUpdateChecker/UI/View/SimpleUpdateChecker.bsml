@@ -1,3 +1,41 @@
 ﻿<vertical vertical-fit='PreferredSize' preferred-width='100' child-align='MiddleLeft' spacing='1.5' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
-	<text text='Hello world' />
+  <vertical horizontal-fit='PreferredSize'
+              vertical-fit='PreferredSize'
+              size-delta-y='0'
+              pad-top='1' pad-bottom='1'
+              preferred-width='55'>
+    <text text='~modName' italics='true' align='Center' font-size='4' />
+    <horizontal preferred-width='40'>
+      <vertical>
+        <text text='Current Version' italics='true' align='Left' font-size='4' />
+        <text text='Newest Version' italics='true' align='Left' font-size='4' />
+      </vertical>
+      <vertical>
+        <text text='~currentVersion' color='red' italics='true' align='Center' font-size='4' />
+        <text text='~newVersion' color='green' italics='true' align='Center' font-size='4' />
+      </vertical>
+    </horizontal>
+    <button text='Get Update' on-click='click-open-github'/>
+    <bool-setting preferred-width='35' text='Hide notification' value='hide-update' bind-value='true' apply-on-change='true'></bool-setting>
+    <button text='Close' on-click='click-close-update-modal'/>
+  </vertical>
+  <modal id='github-notification-modal'
+       show-event='show-github-notification'
+       hide-event='close-github-notification'
+       clickerino-offerino-closerino='false'
+       anchor-pos-x='0'
+       anchor-pos-y='0'
+       size-delta-x='80'
+       size-delta-y='20'
+       move-to-center='false'
+       xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+       xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+    <vertical horizontal-fit='PreferredSize'
+              vertical-fit='PreferredSize'
+              child-align='MiddleLeft'
+              size-delta-y='0'>
+      <text text='Github release page has been opened in your browser' italics='true' align='Center' font-size='4' />
+      <button text='Close' on-click='click-close-github'/>
+    </vertical>
+  </modal>
 </vertical>
