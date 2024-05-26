@@ -20,13 +20,13 @@ namespace SimpleUpdateChecker.Mgr
                 }
                 catch (Exception ex)
                 {
-                    SimpleUpdatePlugin.Log?.Error(ex);
-                    SimpleUpdatePlugin.Log?.Error($"Unable to load VersionCheckerData for {SimpleUpdatePlugin.ModCheckName} from file. Creating new Profile.");
+                    SimpleUpdatePlugin.Log?.Debug(ex);
+                    SimpleUpdatePlugin.Log?.Debug($"Unable to load VersionCheckerData for {SimpleUpdatePlugin.ModCheckName} from file. Creating new Profile.");
                 }
             }
             else
             {
-                SimpleUpdatePlugin.Log?.Error($"Unable to load VersionCheckerData for {SimpleUpdatePlugin.ModCheckName} from file. Creating new Profile.");
+                SimpleUpdatePlugin.Log?.Warn($"Unable to load VersionCheckerData for {SimpleUpdatePlugin.ModCheckName} from file. Creating new Profile.");
             }
             return new VersionCheckerData();
         }

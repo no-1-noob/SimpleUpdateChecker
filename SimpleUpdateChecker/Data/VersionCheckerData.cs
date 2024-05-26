@@ -2,7 +2,7 @@
 
 namespace SimpleUpdateChecker.Data
 {
-    public class VersionCheckerData
+    internal class VersionCheckerData
     {
         private string _acknowledgedVersion = string.Empty;
         private DateTime _dtLastVersionCheck = new DateTime(2000, 1, 1);

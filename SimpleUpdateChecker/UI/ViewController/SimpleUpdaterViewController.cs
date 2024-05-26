@@ -4,13 +4,9 @@ using BeatSaberMarkupLanguage.FloatingScreen;
 using BeatSaberMarkupLanguage.Parser;
 using SimpleUpdateChecker.Plugin;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -23,13 +19,13 @@ namespace SimpleUpdateChecker.UI.ViewController
         private FloatingScreen floatingScreen;
         public void Initialize()
         {
-            floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(75, 100), false, new Vector3(0, 2, 1), new Quaternion(0, 0, 0, 0));
+            System.Random r = new System.Random(Guid.NewGuid().GetHashCode());
+            float randomPos = 5f * ((float)r.NextDouble() - 0.5f);
+            floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(75, 100), false, new Vector3(randomPos, 3.5f, 4), new Quaternion(0, 0, 0, 0));
             floatingScreen.gameObject.name = $"{SimpleUpdatePlugin.ModCheckName}_SimpleUpdateChecker";
             floatingScreen.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
             floatingScreen.gameObject.SetActive(false);
-            floatingScreen.enabled = false;
-            
-            BSMLParser.instance.Parse(BeatSaberMarkupLanguage.Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), $"{SimpleUpdatePlugin.ModCheckName}.SimpleUpdateChecker.UI.View.SimpleUpdateChecker.bsml"), floatingScreen.gameObject, this);
+            BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), $"{SimpleUpdatePlugin.ModCheckName}.SimpleUpdateChecker.UI.View.SimpleUpdateChecker.bsml"), floatingScreen.gameObject, this);
             CheckVersion();
         }
 
@@ -49,7 +45,6 @@ namespace SimpleUpdateChecker.UI.ViewController
                     CurrentVersion = $"{CurrentVersion.Substring(0, CurrentVersion.Length - 2)}";
                     string acknowledgedVersion = SimpleUpdatePlugin.Version.AcknowledgedVersion;
                     NewVersion = await VersionChecker.VersionChecker.GetCurrentVersionAsync();
-                    SimpleUpdatePlugin.Log.Error($"New version: {NewVersion}, currentVersion: {CurrentVersion}");
                     if (string.IsNullOrEmpty(NewVersion) || NewVersion == CurrentVersion || NewVersion == acknowledgedVersion)
                     {
                         NewVersion = string.Empty;
@@ -71,16 +66,18 @@ namespace SimpleUpdateChecker.UI.ViewController
             }
         }
 
+#pragma warning disable 0649
         [UIParams]
         private readonly BSMLParserParams bsmlParserParams;
+#pragma warning restore
         [UIValue("modName")]
-        private string ModName { get; set; }
+        private string ModName { get; set; } = string.Empty;
         [UIValue("newVersion")]
-        private string NewVersion { get; set; }
+        private string NewVersion { get; set; } = string.Empty;
         [UIValue("currentVersion")]
-        private string CurrentVersion { get; set; }
+        private string CurrentVersion { get; set; } = string.Empty;
         [UIValue("hide-update")]
-        private bool HideUpdate { get; set; }
+        private bool HideUpdate { get; set; } = false;
 #pragma warning disable IDE0051 // Remove unused private members
         [UIAction("click-close-update-modal")]
         private void CloseUpdateClicked()

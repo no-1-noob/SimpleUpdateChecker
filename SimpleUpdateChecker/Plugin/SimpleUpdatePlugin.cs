@@ -7,7 +7,7 @@ using IPALogger = IPA.Logging.Logger;
 
 namespace SimpleUpdateChecker.Plugin
 {
-    public class SimpleUpdatePlugin
+    internal class SimpleUpdatePlugin
     {
         public static IPALogger Log { get; private set; }
 

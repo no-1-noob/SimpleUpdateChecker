@@ -3,7 +3,8 @@
               vertical-fit='PreferredSize'
               size-delta-y='0'
               pad-top='1' pad-bottom='1'
-              preferred-width='55'>
+              preferred-width='60'
+              bg='panel-top'>
     <text text='~modName' italics='true' align='Center' font-size='4' />
     <horizontal preferred-width='40'>
       <vertical>
@@ -16,7 +17,7 @@
       </vertical>
     </horizontal>
     <button text='Get Update' on-click='click-open-github'/>
-    <bool-setting preferred-width='35' text='Hide notification' value='hide-update' bind-value='true' apply-on-change='true'></bool-setting>
+    <bool-setting preferred-width='25' text='Hide notification' value='hide-update' bind-value='true' apply-on-change='true'></bool-setting>
     <button text='Close' on-click='click-close-update-modal'/>
   </vertical>
   <modal id='github-notification-modal'

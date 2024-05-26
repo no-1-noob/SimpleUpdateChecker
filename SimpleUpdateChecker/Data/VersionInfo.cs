@@ -1,6 +1,6 @@
 ﻿namespace SimpleUpdateChecker.Data
 {
-    class VersionInfo
+    internal class VersionInfo
     {
         public string NewestVersion { get; set; }
     }

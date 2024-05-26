@@ -1,6 +1,4 @@
-﻿using SimpleUpdateChecker.Plugin;
-using SimpleUpdateChecker.UI.ViewController;
-using System.ComponentModel;
+﻿using SimpleUpdateChecker.UI.ViewController;
 using Zenject;
 
 namespace SimpleUpdateChecker.Installers
@@ -9,7 +7,6 @@ namespace SimpleUpdateChecker.Installers
     {
         public override void InstallBindings()
         {
-            SimpleUpdatePlugin.Log.Error("SimpleUpdateCheckerInstaller");
             Container.BindInterfacesAndSelfTo<SimpleUpdateCheckerViewController>().AsSingle();
         }
     }
