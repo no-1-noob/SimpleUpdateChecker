@@ -16,16 +16,11 @@ namespace SimpleUpdateChecker.UI.ViewController
     class SimpleUpdateCheckerViewController : IInitializable, IDisposable, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private const string NameSuffix = "_SimpleUpdateChecker";
         private FloatingScreen floatingScreen;
         public void Initialize()
         {
-            System.Random r = new System.Random(Guid.NewGuid().GetHashCode());
-            float randomPos = 5f * ((float)r.NextDouble() - 0.5f);
-            floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(75, 100), false, new Vector3(randomPos, 3.5f, 4), new Quaternion(0, 0, 0, 0));
-            floatingScreen.gameObject.name = $"{SimpleUpdatePlugin.ModCheckName}_SimpleUpdateChecker";
-            floatingScreen.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
-            floatingScreen.gameObject.SetActive(false);
-            BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), $"{SimpleUpdatePlugin.ModCheckName}.SimpleUpdateChecker.UI.View.SimpleUpdateChecker.bsml"), floatingScreen.gameObject, this);
             CheckVersion();
         }
 
@@ -51,8 +46,7 @@ namespace SimpleUpdateChecker.UI.ViewController
                     }
                     if (!string.IsNullOrEmpty(NewVersion))
                     {
-                        floatingScreen.gameObject.SetActive(true);
-                        floatingScreen.enabled = true;
+                        CreateFloatingScreen();
                     }
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModName)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentVersion)));
@@ -64,6 +58,35 @@ namespace SimpleUpdateChecker.UI.ViewController
             {
                 SimpleUpdatePlugin.Log?.Error(ex.ToString());
             }
+        }
+
+        private void CreateFloatingScreen()
+        {
+            int count = CountSimpleUpdateChecker();
+            int multi = (count % 2) == 0 ? 1 : -1;
+            float offset = multi * Mathf.Ceil(count / 2f) * 2.0f;
+            floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(75, 100), false, new Vector3(offset, 4, 3), new Quaternion(0, 0, 0, 0));
+            floatingScreen.gameObject.name = $"{SimpleUpdatePlugin.ModCheckName}{NameSuffix}";
+            floatingScreen.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
+            floatingScreen.transform.eulerAngles = new Vector3(-35f, 0f, 0f);
+            floatingScreen.gameObject.SetActive(false);
+            BSMLParser.instance.Parse(Utilities.GetResourceContent(Assembly.GetExecutingAssembly(), $"{SimpleUpdatePlugin.ModCheckName}.SimpleUpdateChecker.UI.View.SimpleUpdateChecker.bsml"), floatingScreen.gameObject, this);
+            floatingScreen.gameObject.SetActive(true);
+            floatingScreen.enabled = true;
+        }
+
+        private int CountSimpleUpdateChecker()
+        {
+            GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+            int count = 0;
+            foreach (GameObject obj in allGameObjects)
+            {
+                if (System.Text.RegularExpressions.Regex.IsMatch(obj.name, $".*{NameSuffix}"))
+                {
+                    count++;
+                }
+            }
+            return count;
         }
 
 #pragma warning disable 0649

@@ -2,6 +2,7 @@
 using SimpleUpdateChecker.Installers;
 using SimpleUpdateChecker.Mgr;
 using SiraUtil.Zenject;
+using System;
 using System.Reflection;
 using IPALogger = IPA.Logging.Logger;
 
@@ -18,6 +19,8 @@ namespace SimpleUpdateChecker.Plugin
 
         public void CreateSimpleUpdateChecker(IPALogger logger, Zenjector zenjector, string updateCheckUrl, string newVersionUrl)
         {
+            if (string.IsNullOrEmpty(updateCheckUrl)) throw new ArgumentException(updateCheckUrl);
+            if (string.IsNullOrEmpty(newVersionUrl)) throw new ArgumentException(newVersionUrl);
             ModCheckName = Assembly.GetExecutingAssembly().GetName().Name;
             UpdateCheckUrl = updateCheckUrl;
             NewVersionURL = newVersionUrl;
