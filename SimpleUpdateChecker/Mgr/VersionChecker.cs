@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SimpleUpdateChecker.Data;
+using SimpleUpdateChecker.Interface;
+using SimpleUpdateChecker.Plugin;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,7 +11,7 @@ namespace SimpleUpdateChecker.VersionChecker
 {
     class VersionChecker
     {
-        public static async Task<string> GetCurrentVersionAsync()
+        public static async Task<Version> GetCurrentVersionAsync()
         {
 #if (!DEBUG)
             try
@@ -25,12 +27,14 @@ namespace SimpleUpdateChecker.VersionChecker
                         response.EnsureSuccessStatusCode(); // Throws an exception if the status code is not 2xx
                         if (response.IsSuccessStatusCode)
                         {
-                            VersionInfo version = null;
                             if (response.IsSuccessStatusCode)
                             {
                                 string result = await response.Content.ReadAsStringAsync();
-                                version = JsonConvert.DeserializeObject<VersionInfo>(result);
-                                return version.NewestVersion;
+                                object deserializedObject = JsonConvert.DeserializeObject(result, SimpleUpdatePlugin.CompareType);
+                                if (deserializedObject is INewestVersion comparer)
+                                {
+                                    return comparer.NewVersionAvailable();
+                                }
                             }
                         }
                         else
@@ -47,11 +51,11 @@ namespace SimpleUpdateChecker.VersionChecker
             catch(Exception ex)
             {
                 Plugin.SimpleUpdatePlugin.Log.Error($"SimpleUpdateChecker failed to get newest version for mod: {Plugin.SimpleUpdatePlugin.ModCheckName} Error: {ex.Message}");
-                return string.Empty;
+                return null;
             }
-            return string.Empty;
+            return null;
 #else
-            return "1.0.0";
+            return new Version(1, 0, 0);
 #endif
         }
     }

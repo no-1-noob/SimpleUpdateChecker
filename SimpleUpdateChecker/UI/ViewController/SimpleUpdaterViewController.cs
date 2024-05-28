@@ -36,10 +36,10 @@ namespace SimpleUpdateChecker.UI.ViewController
                 if ((DateTime.Now - SimpleUpdatePlugin.Version.DtLastVersionCheck).TotalHours >= 12)
                 {
                     ModName = SimpleUpdatePlugin.ModCheckName;
-                    CurrentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                    CurrentVersion = $"{CurrentVersion.Substring(0, CurrentVersion.Length - 2)}";
+                    CurrentVersion = GetVersionStringForComparison(Assembly.GetExecutingAssembly().GetName().Version);
                     string acknowledgedVersion = SimpleUpdatePlugin.Version.AcknowledgedVersion;
-                    NewVersion = await VersionChecker.VersionChecker.GetCurrentVersionAsync();
+                    Version FechedNewVersion = await VersionChecker.VersionChecker.GetCurrentVersionAsync();
+                    NewVersion = GetVersionStringForComparison(FechedNewVersion);
                     if (string.IsNullOrEmpty(NewVersion) || NewVersion == CurrentVersion || NewVersion == acknowledgedVersion)
                     {
                         NewVersion = string.Empty;
@@ -58,6 +58,15 @@ namespace SimpleUpdateChecker.UI.ViewController
             {
                 SimpleUpdatePlugin.Log?.Error(ex.ToString());
             }
+        }
+
+        private string GetVersionStringForComparison(Version version)
+        {
+            if (version == null) return string.Empty;
+            string tmpVersion = version.ToString();
+            SimpleUpdatePlugin.Log?.Error(tmpVersion);
+            if(tmpVersion.Length < 5) return string.Empty;
+            return $"{tmpVersion.Substring(0, 5)}";
         }
 
         private void CreateFloatingScreen()

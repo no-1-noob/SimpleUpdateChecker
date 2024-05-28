@@ -69,9 +69,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DefaultNewestVersion.cs" />
     <Compile Include="Data\VersionCheckerData.cs" />
-    <Compile Include="Data\VersionInfo.cs" />
     <Compile Include="Installer\SimpleUpdateCheckerInstaller.cs" />
+    <Compile Include="Interface\ISimpleUpdateCheckerCompare.cs" />
     <Compile Include="Mgr\SettingsMgr.cs" />
     <Compile Include="Mgr\VersionChecker.cs" />
     <Compile Include="Plugin\SimpleUpdatePlugin.cs" />
