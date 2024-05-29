@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
 using Zenject;
+using UnityEngine.SceneManagement;
 
 namespace SimpleUpdateChecker.UI.ViewController
 {
@@ -22,11 +23,24 @@ namespace SimpleUpdateChecker.UI.ViewController
         public void Initialize()
         {
             CheckVersion();
+            SceneManager.activeSceneChanged += ChangedActiveScene;
+        }
+
+        private void ChangedActiveScene(Scene arg0, Scene arg1)
+        {
+            //Hide Update message when navigating away from main menu the first time
+            if(arg1.name != "MainMenu" && floatingScreen != null)
+            {
+                floatingScreen.enabled = false;
+                floatingScreen.gameObject.SetActive(false);
+                floatingScreen = null;
+                SceneManager.activeSceneChanged -= ChangedActiveScene;
+            }
         }
 
         public void Dispose()
         {
-
+            SceneManager.activeSceneChanged -= ChangedActiveScene;
         }
 
         private async void CheckVersion()
@@ -56,7 +70,7 @@ namespace SimpleUpdateChecker.UI.ViewController
             }
             catch (Exception ex)
             {
-                SimpleUpdatePlugin.Log?.Error(ex.ToString());
+                SimpleUpdatePlugin.Log?.Error($"Error while checking Version: {ex.Message}");
             }
         }
 
@@ -64,7 +78,6 @@ namespace SimpleUpdateChecker.UI.ViewController
         {
             if (version == null) return string.Empty;
             string tmpVersion = version.ToString();
-            SimpleUpdatePlugin.Log?.Error(tmpVersion);
             if(tmpVersion.Length < 5) return string.Empty;
             return $"{tmpVersion.Substring(0, 5)}";
         }
