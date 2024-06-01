@@ -72,7 +72,7 @@
     <Compile Include="Data\DefaultNewestVersion.cs" />
     <Compile Include="Data\VersionCheckerData.cs" />
     <Compile Include="Installer\SimpleUpdateCheckerInstaller.cs" />
-    <Compile Include="Interface\ISimpleUpdateCheckerCompare.cs" />
+    <Compile Include="Interface\INewestVersion.cs" />
     <Compile Include="Mgr\SettingsMgr.cs" />
     <Compile Include="Mgr\VersionChecker.cs" />
     <Compile Include="Plugin\SimpleUpdatePlugin.cs" />

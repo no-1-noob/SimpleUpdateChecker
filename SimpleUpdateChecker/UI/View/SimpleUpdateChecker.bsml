@@ -37,7 +37,7 @@
               vertical-fit='PreferredSize'
               child-align='MiddleLeft'
               size-delta-y='0'>
-      <text text='Github release page has been opened in your browser' italics='true' align='Center' font-size='4' />
+      <text text='Release page has been opened in your default browser' italics='true' align='Center' font-size='4' />
       <button text='Close' on-click='click-close-github'/>
     </vertical>
   </modal>
