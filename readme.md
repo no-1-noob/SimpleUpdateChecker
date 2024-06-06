@@ -17,11 +17,11 @@ Rightclick your solution -> Add existing project -> choose the .csproj
 Edit the .csproj of the mod with a editor and add the following. Reloading the .sln may be needed for the files to show.
 ```xml
 <ItemGroup>
-    <Compile Include="..\SimpleUpdateChecker\**\*.cs" Link="SimpleUpdateChecker\%(RecursiveDir)%(FileName)%(Extension)" />
-    <EmbeddedResource Include="..\SimpleUpdateChecker\**\*.bsml" Link="SimpleUpdateChecker\%(RecursiveDir)%(FileName)%(Extension)" />
+    <Compile Include="..\SimpleUpdateChecker\**\*.cs" Link="%(RecursiveDir)%(FileName)%(Extension)" />
+    <EmbeddedResource Include="..\SimpleUpdateChecker\**\*.bsml" Link="%(RecursiveDir)%(FileName)%(Extension)" />
     <Compile Remove="..\SimpleUpdateChecker\obj\**\*;..\SimpleUpdateChecker\**\obj\**\*" />
     <Compile Remove="..\SimpleUpdateChecker\**\AssemblyInfo.cs" />
-  </ItemGroup>
+</ItemGroup>
 ```
 ### Add the SimpleUpdateChecker to the code
 The main plugin has to extend SimpleUpdatePlugin. Call the CreateSimpleUpdateChecker in the Init method. In OnApplicationQuit call base.OnApplicationQuit.
